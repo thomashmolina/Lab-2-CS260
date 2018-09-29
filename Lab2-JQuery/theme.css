@@ -1,0 +1,16 @@
+header {
+    font-size: 64px;
+}
+
+body {
+    background-image: url(mounthood.jpg);
+    text-align: left;
+    font-size: 35px;
+    color: white;
+    display: block;
+    white-space: nowrap;
+}
+
+form {
+    width: 20%;
+}

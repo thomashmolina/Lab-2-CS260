@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>City Finder</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js">
+    </script>
+    <link rel="stylesheet" type="text/css" href="theme.css">
+  </head>
+  <header>
+    Welcome to my Lab 2!
+  </header>
+  <br><br>
+
+  <body>
+    <div style="font-size:40px">Search for the weather conditions in your city of choice</div>
+    <br>
+    <form>
+      Enter A City: <input type="text" id="cityField" value=""><input id="weatherButton" type="submit" value="Submit" style="margin-left = 30px">
+      <br> Suggestion: <span id="txtHint">Empty</span>
+
+    </form>
+    <p>Entered City</p>
+    <textarea id="displayCity">No City</textarea>
+    <p>Current Weather</p>
+    <div id="weather"></div>
+    <br>
+    <div style="font-size:40px">Use this to search for questions about a programming language</div>
+    <form>
+      Insert a programming language: <input type="text" id="stackField" value=""><input id="stackButton" type="submit" value="Submit">
+      <br><span id="StackHint"></span>
+
+    </form>
+    <div id="stack"></div>
+  </body>
+
+  <script>
+    /* global $ */
+    $(document).ready(function() {
+      $("#cityField").keyup(function() {
+        var url = "http://bioresearch.byu.edu/cs260/jquery/getcity.cgi?q=" + $("#cityField").val();
+        $.getJSON(url, function(data) {
+            var everything;
+            everything = "<ul>";
+            $.each(data, function(i, item) {
+              everything += "<li> " + data[i].city;
+            });
+            everything += "</ul>";
+            $("#txtHint").html(everything);
+          })
+          .done(function() { console.log('getJSON request succeeded!'); })
+          .fail(function(jqXHR, textStatus, errorThrown) {
+            console.log('getJSON request failed! ' + textStatus);
+            console.log("incoming " + jqXHR.responseText);
+          })
+          .always(function() {
+            console.log('getJSON request ended!');
+          });
+      });
+      $("#weatherButton").click(function(e) {
+        var value = $("#cityField").val();
+        console.log(value);
+        e.preventDefault();
+        $("#displayCity").text(value);
+        var everything;
+        var myurl = "https://api.openweathermap.org/data/2.5/weather?units=imperial&appid=d85b5ee4e37eda7cf40d11c1a589a753&q=";
+        myurl += value;
+        console.log(myurl);
+        $.ajax({
+          url: myurl,
+          dataType: "json",
+          success: function(parsed_json) {
+            var location = parsed_json['name'];
+            var weather = parsed_json['weather'][0]['main'];
+            var temp = parsed_json['main']['temp'];
+            var weather_icon = parsed_json['weather'][0]['icon'];
+            var humidity = parsed_json['main']['humidity'];
+            var temp_min = parsed_json['main']['temp_min'];
+            var temp_max = parsed_json['main']['temp_max'];
+            var wind_speed = parsed_json['wind']['speed'];
+            everything = "<img src=\"http://openweathermap.org/img/w/" + weather_icon + ".png\" style = width:100px;/>"
+            everything += "<ul>";
+            everything += "<li>Location: " + location;
+            everything += "<li>Weather: " + weather + " (" + temp + "&#8457;)";
+            everything += "<li>Low: " + temp_min + "&#8457; | High: " + temp_max + "&#8457;";
+            everything += "<li>Humidity: " + humidity + "%";
+            everything += "<li>Wind: " + wind_speed + " mph";
+            everything += "</ul>";
+            $("#weather").html(everything);
+          }
+        });
+      });
+    });
+    /*global myurl*/
+    /*global name*/
+    $(document).ready(function() {
+      $("#stackField").keyup(function() {
+        $("#stackButton").click(function(e) {
+          var value = $("#stackField").val();
+          console.log(value);
+          e.preventDefault();
+          $("#displayStack").text(value);
+          var everything;
+          var myurl = "https://api.stackexchange.com/2.2/search?page=1&pagesize=1&order=desc&sort=activity&intitle=" + value + "&site=stackoverflow";
+          console.log(myurl);
+          for (var i = 1; i < 5; i++) {
+            var myurl = "https://api.stackexchange.com/2.2/search?page=" + i + "&pagesize=1&order=desc&sort=activity&intitle=" + value + "&site=stackoverflow";
+            $.ajax({
+              url: myurl,
+              dataType: "json",
+              success: function(parsed_json) {
+                var name = parsed_json['items'][0]['owner']['display_name'];
+                var title = parsed_json['items'][0]['title'];
+                var isanswered = parsed_json['items'][0]['is_answered'];
+                everything += "<ul>";
+                everything += "<li>Name: " + name;
+                everything += "<li>Questions: " + title + "?";
+                everything += "<li>Answered? " + isanswered;
+                everything += "</ul>";
+                $("#stack").html(everything);
+              }
+
+            });
+          }
+        });
+      });
+    });
+  </script>
+
+</html>

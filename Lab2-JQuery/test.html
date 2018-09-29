@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>City Finder</title>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js">
+        </script>
+    </head>
+
+    <body>
+        <form>
+            Enter A word for StackExchange: <input type="text" id="stackField" value=""><br><span id="StackHint"></span>
+            <input id="stackButton" type="submit" value="Submit">
+        </form>
+        <div id="stack">no results</div>
+    </body>
+    <script>
+        /* global $ */
+        $(document).ready(function() {
+            $("#stackField").keyup(function() {
+                $("#stackButton").click(function(e) {
+                    var value = $("#stackField").val();
+                    console.log(value);
+                    e.preventDefault();
+                    $("#displayStack").text(value);
+                    var everything;
+                    var myurl = "https://api.stackexchange.com/2.2/search?page=1&pagesize=1&order=desc&sort=activity&intitle=" + value + "&site=stackoverflow";
+                    console.log(myurl);
+                    for (var i = 1; i < 5; i++) {
+                        var myurl = myurl = "https://api.stackexchange.com/2.2/search?page=" + i + "&pagesize=&order=desc&sort=activity&intitle=" + value + "&site=stackoverflow";
+                        $.ajax({
+                            url: myurl,
+                            dataType: "json",
+                            success: function(parsed_json) {
+                                var i;
+
+                                var name = parsed_json['items'][0]['owner']['display_name'];
+                                var title = parsed_json['items'][0]['title'];
+                                var isanswered = parsed_json['items'][0]['is_answered'];
+                                everything += "<ul>";
+                                everything += "<li>Name: " + name;
+                                everything += "<li>Questions: " + title + "?";
+                                everything += "<li>Answered? " + isanswered;
+                                everything += "</ul>";
+                                $("#stack").html(everything);
+                            }
+
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+</html>
