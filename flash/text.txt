@@ -1,0 +1,14 @@
+Bricolaje	Do it yourself DIY
+Mazo	Mallet
+Martillo	Hammer
+Destornillador	Screwdriver
+Palanca	Lever
+Clavo	Nail
+Alicates	Pliers
+Llave inglesa	Wrench
+Taladro	Drill
+Formon	Chisel
+Ferreteria	Hardware Store
+Abrazadera	Clamp
+Regla	Ruler
+Alambre	Wire

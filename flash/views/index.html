@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <!-- include our dependency on angular -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js"></script>
+        <script src="notecards.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <meta charset="utf-8">
+        <title>Notecards</title>
+    </head>
+
+    <body ng-controller='mainCtrl'>
+        <h1>Choose a file to turn into Notecards</h1>
+        <input type="file" ng-model="file.data" file-select="data" file-loaded="myLoaded()" file-error="myError($error)" file-progress="myProgress($total,$loaded)">
+        </input>
+        <h3>Terms</h3>
+        <div class='textfile'>
+        </div>
+        <ng-include src="'text.html'">
+            ...
+        </ng-include>
+    </body>
+
+</html>

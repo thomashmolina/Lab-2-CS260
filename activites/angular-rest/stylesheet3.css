@@ -1,0 +1,62 @@
+.btn {
+    position: absolute;
+    width: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background-color: #f1f1f1;
+    border: none;
+}
+
+.btn2 {
+    background-color: #f1f1f1;
+    border: none;
+}
+
+.btn:hover {
+    cursor: pointer;
+    background-color: #f1ffff;
+    border: dotted;
+    border-color: black;
+}
+
+.btn2:hover {
+    cursor: pointer;
+    background-color: #f1ffff;
+    border: dotted;
+    border-color: black;
+}
+
+input[type=text]:focus {
+    border: 1px solid #555;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Lato", sans-serif;
+}
+
+body,
+html {
+    height: 80%;
+    color: #777;
+    line-height: 1.8;
+}
+
+.boxfix {
+    margin-top: 100px;
+    position: center;
+}
+
+@media only screen and (max-device-width: 1600px) {
+    .bgimg-1,
+    .bgimg-2,
+    .bgimg-3 {
+        min-height: 70px;
+    }
+}
